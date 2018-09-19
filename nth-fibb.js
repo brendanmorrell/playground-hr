@@ -42,3 +42,23 @@ const closureMemo = () => {
   };
 };
 const nthFibClosure = closureMemo();
+
+// O(n) time and O(1) space
+function fib(n) {
+  if (n < 0) {
+    throw new Error('Index was negative. No such thing as a negative index in a series.');
+  } else if (n === 0 || n === 1) {
+    return n;
+  }
+  let prevPrev = 0; 
+  let prev = 1; 
+  let current; 
+
+  for (let i = 1; i < n; i++) {
+    current = prev + prevPrev;
+    prevPrev = prev;
+    prev = current;
+  }
+
+  return current;
+}
