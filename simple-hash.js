@@ -1,24 +1,3 @@
-class HashTable {
-  constructor(size) {
-    this.size = size;
-    this.hashMap = new Array(size);
-  }
-  hashingFunction(str, size) {
-    let total = 0;
-    for (let i = 0; i < str.length; i++) {
-      total += str.charCodeAt(i);
-    }
-    return total % size;
-  }
-  add(str) {
-    const index = this.hashingFunction(str, this.size);
-  }
-}
-
-const HT = new HashTable(20);
-
-console.log(HT);
-
 function Node(val) {
   this.value = val;
   this.next = null;
@@ -102,17 +81,113 @@ class LinkedList {
     return contains;
   }
 }
-const LL = new LinkedList();
-console.log(LL);
-LL.add(1);
-LL.add(2);
-LL.add(3);
-LL.remove(3);
-LL.add(4);
-const cb = function({ value }) {
-  console.log(value);
-};
-LL.insertAfter(3, 2);
-LL.traverse(cb);
-LL.traverseReverse(cb);
-console.log(LL);
+// const LL = new LinkedList();
+// console.log(LL);
+// LL.add(1);
+// LL.add(2);
+// LL.add(3);
+// LL.remove(3);
+// LL.add(4);
+// const cb = function({ value }) {
+//   console.log(value);
+// };
+// LL.insertAfter(3, 2);
+// LL.traverse(cb);
+// LL.traverseReverse(cb);
+// console.log(LL);
+class HashTable {
+  constructor(size) {
+    this.size = size;
+    this.hashMap = new Array(size);
+    this.openSlots = size;
+  }
+  hashingFunction(str, size) {
+    let total = 0;
+    for (let i = 0; i < str.length; i++) {
+      total += str.charCodeAt(i);
+    }
+    return total % size;
+  }
+  add(str) {
+    const index = this.hashingFunction(str, this.size);
+    if (this.hashMap[index]) {
+      if (typeof this.hashMap[index] === 'string') {
+        const existing = this.hashMap[index];
+        this.hashMap[index] = new LinkedList();
+        this.hashMap[index].add(existing);
+      }
+      this.hashMap[index].add(str);
+    } else {
+      this.openSlots -= 1;
+      this.hashMap[index] = str;
+      if (!this.openSlots) {
+        this.resize();
+        console.log('object');
+      }
+    }
+  }
+  remove(str) {
+    const index = this.hashingFunction(str, this.size);
+    if (typeof this.hashMap[index] === 'string') delete this.hashMap[index];
+    else {
+      this.hashMap[index].remove(str);
+    }
+  }
+  resize() {
+    const previous = this.hashMap;
+    this.size *= 2;
+    this.openSlots = this.size;
+    console.log(this.size);
+    this.hashMap = new Array(this.size);
+    previous.forEach(x => {
+      if (typeof x === 'string') {
+        this.add(x);
+      } else {
+        x.traverse(node => this.add(node.value));
+      }
+    });
+  }
+}
+
+const HT = new HashTable(10);
+HT.add('dog');
+HT.add('a');
+HT.add('b');
+HT.add('c');
+HT.add('d');
+HT.add('e');
+HT.add('f');
+HT.add('aa');
+HT.add('bb');
+HT.add('cc');
+HT.add('dd');
+HT.add('ee');
+HT.add('ff');
+HT.add('gg');
+HT.add('hh');
+HT.add('i');
+HT.add('h');
+HT.add('g');
+HT.add('ii');
+HT.add('j');
+HT.add('k');
+HT.add('l');
+HT.add('m');
+HT.add('n');
+HT.add('o');
+HT.add('pp');
+HT.add('pd');
+HT.add('pq');
+HT.add('nnfhjdsa');
+HT.remove('pq');
+HT.remove('nnfhjds');
+console.log(HT);
+let count = 0;
+HT.hashMap.forEach(x => {
+  if (typeof x === 'string') {
+    count += 1;
+  } else {
+    x.traverse(node => (count += 1));
+  }
+});
+console.log(count);
