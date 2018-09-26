@@ -13,10 +13,11 @@ function subsetSum(array, target) {
   if (target < 0 || array.length === 0) return false;
   return subsetSum(array, target - array[0]) || subsetSum(array.slice(1), target);
 }
-console.log(subsetSum([3, 7, 5, 2], 5));
+// console.log(subsetSum([3, 7, 5, 2], 5));
 
 // iterate through each item
 // on each item, look through it plus each other item
 // on each other item's check, check if is
 
 module.exports = subsetSum;
+

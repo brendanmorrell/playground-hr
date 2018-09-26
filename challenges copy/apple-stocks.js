@@ -27,3 +27,16 @@ function bestProfit(prices) {
   return maxProfit;
 }
 console.log(bestProfit([10, 7, 5, 8, 11, 9]));
+
+const secondAttempt = arr => {
+  let maxProfit = 0;
+  let low = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    let current = arr[i];
+    if (current < low) low = current;
+    if (current - low > maxProfit) maxProfit = current - low;
+  }
+  return maxProfit;
+};
+
+console.log(secondAttempt([10, 7, 5, 8, 11, 9]));

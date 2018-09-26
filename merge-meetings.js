@@ -32,10 +32,31 @@ const meetings = [
   { startTime: 4, endTime: 8 },
   { startTime: 10, endTime: 12 },
   { startTime: 9, endTime: 10 },
+  { startTime: 20, endTime: 30 },
+  { startTime: 24, endTime: 26 },
 ];
 // [
 //   { startTime: 0, endTime: 1 },
 //   { startTime: 3, endTime: 8 },
 //   { startTime: 9, endTime: 12 }
 // ];
-console.log(mergeRanges(meetings));
+// console.log(mergeRanges(meetings));
+
+const retryingLater = arr => {
+  const result = [];
+  const sorted = arr.sort((a, b) => a.startTime - b.startTime);
+  console.log(sorted);
+  for (let i = 0; i < sorted.length; i += 1) {
+    const current = sorted[i];
+    const next = sorted[i + 1];
+    if (!next || current.endTime < next.startTime) {
+      result.push(current);
+    } else {
+      next.startTime = current.startTime;
+      next.endTime = Math.max(current.endTime, next.endTime);
+    }
+  }
+  return result;
+};
+
+console.log(retryingLater(meetings));
