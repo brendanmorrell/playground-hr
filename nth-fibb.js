@@ -50,9 +50,9 @@ function fib(n) {
   } else if (n === 0 || n === 1) {
     return n;
   }
-  let prevPrev = 0; 
-  let prev = 1; 
-  let current; 
+  let prevPrev = 0;
+  let prev = 1;
+  let current;
 
   for (let i = 1; i < n; i++) {
     current = prev + prevPrev;
@@ -62,3 +62,12 @@ function fib(n) {
 
   return current;
 }
+console.log((fib(1)))
+
+const again = n => {
+  if (n === 1 || n === 0) return n;
+  return again(n - 1) + again(n - 2);
+};
+
+console.log(again(6));
+// 112358 13

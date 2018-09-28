@@ -68,4 +68,18 @@ const primesInRange2 = (x, y) => {
   }
   return primes;
 };
-console.log(primesInRange2(2, 10));
+// console.log(primesInRange2(2, 10));
+
+const playingaround = n => {
+  if (n < 2) return false;
+  let count = 2;
+  let isPrime = true;
+  while (count < n) {
+    if (n % count === 0) {
+      isPrime = false;
+      break;
+    }
+  }
+  return isPrime;
+};
+console.log(playingaround(5));
